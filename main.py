@@ -16,6 +16,8 @@ diretorio_principal = os.path.dirname(__file__)
 diretorio_img = os.path.join(diretorio_principal, 'assets', 'img', 'sfx')
 
 # Estabelecimento de classes
+
+# ----- JOGADOR -----
 class Jogador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -42,3 +44,23 @@ class Jogador(pygame.sprite.Sprite):
             self.rect.right = LARGURA_TELA
         if self.rect.left < 0:
             self.rect.left = 0
+
+# ----- ASTERÓIDE -----
+class Inimigo(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load(os.path.join(diretorio_img, 'asteroid.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (30, 30))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(LARGURA_TELA - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = random.randrange(1, 4)
+
+    def update(self):
+        self.rect.y += self.speedy
+
+        # Reposicionamento do inimigo no topo da tela quando este sai da mesma
+        if self.rect.top > ALTURA_TELA + 10:
+            self.rect.x = random.randrange(LARGURA_TELA - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 4)
