@@ -27,3 +27,18 @@ class Jogador(pygame.sprite.Sprite):
         self.rect.centerx = LARGURA_TELA / 2
         self.rect.bottom = ALTURA_TELA - 10
         self.speedx = 0
+
+    def update(self):
+        self.speedx = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_LEFT]:
+            self.speedx = -8
+        if keystate[pygame.K_RIGHT]:
+            self.speedx = 8
+        self.rect.x += self.speedx
+
+        # Jogador permanece dentro da tela
+        if self.rect.right > LARGURA_TELA:
+            self.rect.right = LARGURA_TELA
+        if self.rect.left < 0:
+            self.rect.left = 0
